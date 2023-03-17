@@ -14,10 +14,7 @@ import java.sql.SQLException
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-    var g = ""
-    var n = ""
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val generateQR: Button = findViewById(R.id.generateQR)
@@ -34,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkStud(): Boolean {
         val fn: TextView = findViewById(R.id.fullName)
-
         var check = false
         var cn: Connection
         thread {
@@ -42,20 +38,17 @@ class MainActivity : AppCompatActivity() {
                 Class.forName("com.mysql.jdbc.Driver")
                 cn = DriverManager.getConnection(url, user, pass)
                 val ps = cn.createStatement()
-                val resultSet = ps!!.executeQuery("SELECT `studGroup`, `fullName` FROM `student` WHERE `fullName` = '${fn.text}'")
+                val resultSet = ps!!.executeQuery("SELECT `studGroup`, `fullName` FROM " +
+                        "`student` WHERE `fullName` = '${fn.text}'")
                 while (resultSet.next()) {
                     check = true
-                    n = resultSet.getString("fullName")
-                    g = resultSet.getString("studGroup")
+                    val n = resultSet.getString("fullName")
+                    val g = resultSet.getString("studGroup")
                     save(n, g)
                     break
                 }
-                if (ps != null) {
-                    ps!!.close()
-                }
-                if (cn != null) {
-                    cn.close()
-                }
+                ps.close()
+                cn.close()
             } catch (e: ClassNotFoundException) {
                 e.printStackTrace()
             } catch (e: SQLException) {
@@ -64,19 +57,19 @@ class MainActivity : AppCompatActivity() {
         }.join()
         return check
     }
-    private fun save(fname: String, group: String) {
+    private fun save(fName: String, group: String) {
         val mPrefs: SharedPreferences = getSharedPreferences("data", 0)
         val editor: SharedPreferences.Editor = mPrefs.edit()
-        editor.putString("fullName", fname)
+        editor.putString("fullName", fName)
         editor.putString("group", group)
-        editor.commit()
+        editor.apply()
     }
     override fun onStart() {
         super.onStart()
         val mPrefs = getSharedPreferences("data", 0)
         val name = mPrefs.getString("fullName", "")
         if (name != null) {
-            if( !name.isEmpty()) {
+            if(name.isNotEmpty()) {
                 val intent = Intent(this@MainActivity,QRGenerateActivity::class.java)
                 startActivity(intent)
                 this.finish()

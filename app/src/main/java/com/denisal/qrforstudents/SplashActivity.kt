@@ -12,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         setContentView(R.layout.activity_splash)
         mHandler = Handler()
-        mHandler!!.postDelayed(runnable, 2000)
+        mHandler!!.postDelayed(runnable, 1000)
     }
     private val runnable: Runnable = Runnable {
         if (!isFinishing) {

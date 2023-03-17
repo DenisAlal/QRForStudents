@@ -20,7 +20,7 @@ class QRGenerateActivity : AppCompatActivity() {
         val group = mPrefs.getString("group", "")
         if (name != null) {
             if (group != null) {
-                var qr = "$name-$group"
+                val qr = "$name|$group"
                 val bitmap: Bitmap = QRCode(qr).render().nativeImage() as Bitmap
                 val img: ImageView = findViewById(R.id.QRcode)
                 img.setImageBitmap(bitmap)
