@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 this.finish()
             } else {
-                Toast.makeText(applicationContext, "This student not found", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Данного студента нет в базе данных", Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -1,9 +1,6 @@
 package com.denisal.qrforstudents
-
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
