@@ -4,29 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/whiteNew">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+    tools:context=".MainActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/goInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:src="@drawable/outline_info_24"
+            app:backgroundTint="?attr/colorPrimaryVariant"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="?attr/colorSecondaryVariant" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/rectangle">
 
             <TextView
                 android:id="@+id/textAbout"
@@ -36,27 +48,55 @@
                 android:layout_marginVertical="20dp"
                 android:text="Введите ваше ФИО в данном формате (Иванов Иван Иванович)"
                 android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColor="?attr/colorAccent"/>
 
             <EditText
                 android:id="@+id/fullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="20dp"
                 android:hint="Введите ФИО"
                 android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                android:textColor="?attr/colorAccent"
+                app:backgroundTint="?attr/colorAccent"
+                android:textColorHint="?attr/colorAccent"/>
+            <TextView
+                android:id="@+id/textAboutGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:text="Введите вашу группу в данном формате (БИ-41.1)"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColor="?attr/colorAccent"/>
 
-            <Button
+            <EditText
+                android:id="@+id/studGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:hint="Введите группу"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColor="?attr/colorAccent"
+                app:backgroundTint="?attr/colorAccent"
+                android:textColorHint="?attr/colorAccent"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/generateQR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="20dp"
-                android:text="Сгенирировать QRCode" />
+                android:text="Сгенирировать QRCode"
+                android:background="@drawable/button"
+                android:textColor="?attr/colorOnPrimary"/>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

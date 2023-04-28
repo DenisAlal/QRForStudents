@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.QRForStudents" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+    <style name="Theme.QRForStudents" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+            <!-- Primary brand color. -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#1D1F27</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/primary</item>
-        <item name="colorSecondaryVariant">@color/colorPrimary</item>
-        <item name="colorOnSecondary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">#1D1F27</item>
+        <item name="colorSecondaryVariant">#FFFFFF</item>
+        <item name="colorOnSecondary">#2e2e2e</item>
+        <item name="colorAccent">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">#4980f0</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/darkColor</item>
     </style>
 </resources>

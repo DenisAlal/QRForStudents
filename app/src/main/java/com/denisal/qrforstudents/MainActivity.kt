@@ -3,11 +3,12 @@ package com.denisal.qrforstudents
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -18,19 +19,46 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val generateQR: Button = findViewById(R.id.generateQR)
+        val fio: TextView = findViewById(R.id.fullName)
+        val studGroup: TextView = findViewById(R.id.studGroup)
         generateQR.setOnClickListener {
-            if (checkStud()) {
-                val intent = Intent(this@MainActivity,QRGenerateActivity::class.java)
-                startActivity(intent)
-                this.finish()
+            if (fio.text.isNotEmpty() && studGroup.text.isNotEmpty()) {
+                if (checkStud()) {
+                    val intent = Intent(this@MainActivity,HomeActivity::class.java)
+                    startActivity(intent)
+                    this.finish()
+                } else {
+                    Toast.makeText(applicationContext, "Данного студента нет в базе данных", Toast.LENGTH_LONG).show()
+                }
             } else {
-                Toast.makeText(applicationContext, "Данного студента нет в базе данных", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Заполните все поля!", Toast.LENGTH_LONG).show()
             }
+
         }
+        val info: FloatingActionButton = findViewById(R.id.goInfo)
+        info.setOnClickListener {
+            val builderSucceed = AlertDialog.Builder(this)
+                .setTitle("Информация")
+                .setMessage(
+                    "Если у вас возникает ошибка при входе, то скорее всего вы пишете в неправильном формате," +
+                            " или вас не добавил еще не один преподаватель в этом семестре!\nПодсказка:\n " +
+                            "1. Проверьте правильно ли написана ваша ФИО\n " +
+                            "2. Проверьте правильно ли вы написали группу, она должна соответствовать формату\n" +
+                            "3. Проверьте нет ли лишних пробелов, между фио должно быть по одному пробелу, " +
+                            "до и после их быть не должно"
+                )
+            builderSucceed.setPositiveButton("OK") { _, _ ->
+            }
+            val alertDialogSuccess: AlertDialog = builderSucceed.create()
+            alertDialogSuccess.show()
+        }
+
+
     }
 
     private fun checkStud(): Boolean {
-        val fn: TextView = findViewById(R.id.fullName)
+        val fio: TextView = findViewById(R.id.fullName)
+        val studGroup: TextView = findViewById(R.id.studGroup)
         var check = false
         var cn: Connection
         thread {
@@ -38,8 +66,10 @@ class MainActivity : AppCompatActivity() {
                 Class.forName("com.mysql.jdbc.Driver")
                 cn = DriverManager.getConnection(url, user, pass)
                 val ps = cn.createStatement()
-                val resultSet = ps!!.executeQuery("SELECT `studGroup`, `fullName` FROM " +
-                        "`student` WHERE `fullName` = '${fn.text}'")
+                val resultSet = ps!!.executeQuery(
+                    "SELECT studGroup, fullName FROM " +
+                            "student WHERE fullName = '${fio.text}' AND studGroup = '${studGroup.text}' "
+                )
                 while (resultSet.next()) {
                     check = true
                     val n = resultSet.getString("fullName")
@@ -57,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         }.join()
         return check
     }
+
     private fun save(fName: String, group: String) {
         val mPrefs: SharedPreferences = getSharedPreferences("data", 0)
         val editor: SharedPreferences.Editor = mPrefs.edit()
@@ -64,13 +95,15 @@ class MainActivity : AppCompatActivity() {
         editor.putString("group", group)
         editor.apply()
     }
+
     override fun onStart() {
         super.onStart()
         val mPrefs = getSharedPreferences("data", 0)
         val name = mPrefs.getString("fullName", "")
-        if (name != null) {
-            if(name.isNotEmpty()) {
-                val intent = Intent(this@MainActivity,QRGenerateActivity::class.java)
+        val group = mPrefs.getString("group", "")
+        if (name != null && group != null) {
+            if (name.isNotEmpty()) {
+                val intent = Intent(this@MainActivity, HomeActivity::class.java)
                 startActivity(intent)
                 this.finish()
             }
